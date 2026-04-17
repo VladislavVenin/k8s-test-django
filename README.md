@@ -105,3 +105,18 @@ type: Opaque
 ```bash
 kubectl apply -f secrets.yaml
 ```
+### Настройка ingress
+
+Для настройки [ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) установите или активируйте его в вашем кластере:
+
+```bash
+minikube addons enable ingress
+``` 
+и создайте правило:
+```bash
+kubectl create ingress ingress-hosts --rule=example.com/=django:80
+```
+или отредактируйте файл `kubernetes/ingress.yaml` и примените его:
+```bash
+kubectl apply -f ingress.yaml
+```

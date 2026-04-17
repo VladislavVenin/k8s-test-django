@@ -39,4 +39,4 @@ spec:
   selector:
     app: django
   sessionAffinity: None
-  type: NodePort
+  type: ClusterIP
