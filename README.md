@@ -120,3 +120,11 @@ kubectl create ingress ingress-hosts --rule=example.com/=django:80
 ```bash
 kubectl apply -f ingress.yaml
 ```
+
+### clearsessions
+
+Чтобы не заниматься чисткой БД от устаревших сессий самостоятельно, добавьте сервис делающий это автоматически за вас:
+
+```bash
+kubectl apply -f django-clearsessions.yaml
+```
