@@ -75,3 +75,33 @@ $ docker compose build web
 `ALLOWED_HOSTS` -- настройка Django со списком разрешённых адресов. Если запрос прилетит на другой адрес, то сайт ответит ошибкой 400. Можно перечислить несколько адресов через запятую, например `127.0.0.1,192.168.0.1,site.test`. [Документация Django](https://docs.djangoproject.com/en/3.2/ref/settings/#allowed-hosts).
 
 `DATABASE_URL` -- адрес для подключения к базе данных PostgreSQL. Другие СУБД сайт не поддерживает. [Формат записи](https://github.com/jacobian/dj-database-url#url-schema).
+
+## Развёртывание в k8s кластере
+
+### Переменные окружения для k8s кластера
+
+Для считывания "секретных" настроек внутри k8s кластера создайте обьект `secret` secrets с переменными окружения указанными ранее
+
+Для этого можно воспользоваться командой:
+```bash
+kubectl create secret generic secrets --from-literal=SECRET_KEY=... --from-literal=DATABASE_URL=... ...
+```
+или создать файл `.yaml` следующего содержания
+```yaml
+apiVersion: v1
+data:
+  ALLOWED_HOSTS: ...
+  DATABASE_URL: ...
+  DEBUG: ...
+  SECRET_KEY: ...
+kind: Secret
+metadata:
+  name: secrets
+  namespace: default
+type: Opaque
+```
+и добавьте его в кластер командой:
+
+```bash
+kubectl apply -f secrets.yaml
+```
