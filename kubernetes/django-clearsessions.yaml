@@ -3,9 +3,11 @@ kind: CronJob
 metadata:
   name: django-clearsessions
 spec:
+  startingDeadlineSeconds: 15
   schedule: 0 0 1 * *
   jobTemplate:
     spec:
+      ttlSecondsAfterFinished: 60
       template:
         spec:
           restartPolicy: OnFailure
