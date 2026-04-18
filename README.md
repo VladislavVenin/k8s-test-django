@@ -78,6 +78,26 @@ $ docker compose build web
 
 ## Развёртывание в k8s кластере
 
+### Развёртывание PostgreSQL в кластере
+
+Для развёртывания БД будем использьвать helm, все команды далее представленны для командной строки windows
+
+
+Установите Helm-чарт от Bitnami:
+```bash
+helm install my-postgresql oci://registry-1.docker.io/bitnamicharts/postgresql
+```
+Получите пароль для подключения, он будет во поле `data.postgres-password`:
+```bash
+kubectl get secret --namespace default my-postgresql -o yaml
+```
+
+`DATABASE_URL` для дальнейшего подключения из другого пода будет вида:
+```
+postgresql://postgres:ПАРОЛЬ@ИМЯ_СЕРВИСА:5432/postgres
+```
+
+
 ### Переменные окружения для k8s кластера
 
 Для считывания "секретных" настроек внутри k8s кластера создайте обьект `secret` secrets с переменными окружения указанными ранее
