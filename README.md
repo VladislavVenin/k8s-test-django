@@ -125,6 +125,14 @@ type: Opaque
 ```bash
 kubectl apply -f secrets.yaml
 ```
+### Запуск контейнера с django
+Теперь, когда все переменные окружения заданы вы можете создать деплоймент и сервис для него:
+```bash
+kubectl apply -f deploy.yaml
+```
+```bash
+kubectl apply -f service.yaml
+```
 ### Настройка ingress
 
 Для настройки [ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) установите или активируйте его в вашем кластере:
