@@ -158,6 +158,7 @@ kubectl apply -f django-clearsessions.yaml
 ```
 ## Развёртывание в k8s кластере
 [ссылка на работающую версию сайта](https://edu-vladislav-aleksandrov.yc-sirius-dev.pelid.team)
+
 [ссылка на описание выделенных ресурсов облачной инфраструктуры](https://sirius-env-registry.website.yandexcloud.net/edu-vladislav-aleksandrov.html)
 ### Как подготовить dev окружение
 
