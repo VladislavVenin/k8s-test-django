@@ -4,7 +4,7 @@ metadata:
   labels:
     app: django
   name: django
-  namespace: default
+  namespace: yournamespace
 spec:
   ports:
   - port: 80

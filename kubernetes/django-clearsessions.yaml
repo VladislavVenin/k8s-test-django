@@ -2,6 +2,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: django-clearsessions
+  namespace: yournamespace
 spec:
   startingDeadlineSeconds: 15
   schedule: 0 0 1 * *

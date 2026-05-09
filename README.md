@@ -157,6 +157,8 @@ kubectl apply -f ingress.yaml
 kubectl apply -f django-clearsessions.yaml
 ```
 ## Развёртывание в k8s кластере
+[ссылка на работающую версию сайта](https://edu-vladislav-aleksandrov.yc-sirius-dev.pelid.team)
+[ссылка на описание выделенных ресурсов облачной инфраструктуры](https://sirius-env-registry.website.yandexcloud.net/edu-vladislav-aleksandrov.html)
 ### Как подготовить dev окружение
 
 Для подключения потребуется SSL-сертификат СУБД, чтобы автоматизировать процесс установки достаточно добивить его через секрет и сохранить в виде файла при запуске
@@ -193,3 +195,24 @@ docker push NAMESPACE/REPOSITORY[:TAG]
 ```yaml
 image: venin6/django_app:e9dbcab43d30c136e118d5140868435c644c074e
 ```
+
+Теперь, когда бекэнд запущен, осталось только обработать HTTP запросы которые он будет получать.
+В следующем примере уже есть запущенный отдельно nginx сервер и схема HTTP запросов выглядит так:
+
+```
+Браузер → ALB → Nginx → Django
+```
+
+Для переброса трафика на Django достаточно отредактировать ConfigMap Nginx'а
+```js
+http {
+        server {
+            listen       80;
+            server_name  localhost;
+            location / {
+                proxy_pass http://django:80;
+            }
+        }
+      }
+```
+где `django:80` это имя запущенного сервиса и его порт
