@@ -1,10 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations: {}
   labels:
     app: django
   name: django
-  namespace: default
+  namespace: yournamespace
 spec:
   replicas: 1
   selector:
@@ -18,8 +19,16 @@ spec:
       containers:
       - envFrom:
         - secretRef:
-            name: secrets
-        image: django_app:latest
+            name: django-secrets
+        image: venin6/django_app:e9dbcab43d30c136e118d5140868435c644c074e
         imagePullPolicy: IfNotPresent
         name: django-app
+        volumeMounts:
+        - mountPath: "/root/.postgresql/root.crt"
+          name: secret-data
+          subPath: root.crt
       restartPolicy: Always
+      volumes:
+      - name: secret-data
+        secret:
+          secretName: postgres

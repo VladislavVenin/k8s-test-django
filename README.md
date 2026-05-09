@@ -76,7 +76,7 @@ $ docker compose build web
 
 `DATABASE_URL` -- адрес для подключения к базе данных PostgreSQL. Другие СУБД сайт не поддерживает. [Формат записи](https://github.com/jacobian/dj-database-url#url-schema).
 
-## Развёртывание в k8s кластере
+## Развёртывание в minikube кластере
 
 ### Развёртывание PostgreSQL в кластере
 
@@ -155,4 +155,26 @@ kubectl apply -f ingress.yaml
 
 ```bash
 kubectl apply -f django-clearsessions.yaml
+```
+## Развёртывание в k8s кластере
+### Как подготовить dev окружение
+
+Для подключения потребуется SSL-сертификат СУБД, чтобы автоматизировать процесс установки достаточно добивить его через секрет и сохранить в виде файла при запуске
+```yaml
+    spec:
+      containers:
+      - envFrom: 
+        - secretRef:
+            name: django-secrets # Те же секреты, что и при развёртывании в minikube
+        ...
+        name: django-app
+        volumeMounts: # Монтируем секрет в виде отдельного файла
+        - mountPath: "/root/.postgresql/root.crt" # Путь до файла
+          name: secret-data
+          subPath: root.crt # Ключ требуемого секрета
+      restartPolicy: Always
+      volumes:
+      - name: secret-data
+        secret:
+          secretName: postgres # Секрет с SSL-сертификатом
 ```
