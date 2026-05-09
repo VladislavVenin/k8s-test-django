@@ -178,3 +178,18 @@ kubectl apply -f django-clearsessions.yaml
         secret:
           secretName: postgres # Секрет с SSL-сертификатом
 ```
+
+При работе в облаке не удастся использовать локально собранный образ, поэтому стоит разместить его в docker registry
+
+Соберите образ из каталога с `Dockerfile` с указанием своего логина на dockerhub 
+```bash
+docker build -t NAMESPACE/REPOSITORY[:TAG] .       
+```
+и опубликуйте его
+```bash
+docker push NAMESPACE/REPOSITORY[:TAG]
+```
+В `deploy.yaml` укажите опубликованный образ
+```yaml
+image: venin6/django_app:e9dbcab43d30c136e118d5140868435c644c074e
+```
